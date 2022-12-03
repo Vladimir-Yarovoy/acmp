@@ -10,13 +10,12 @@ func main() {
 
 	fmt.Scan(&a, &b)
 
-	fmt.Print(LastDigit(a, b))
-
+	fmt.Print(LastDigitOfPower(a, b))
 }
 
-func LastDigit(a, b int) int {
+func LastDigitOfPower(base, power int) int {
 
-	matrix := [][]int{
+	digitPeriods := [][]int{
 		{0},
 		{1},
 		{2, 4, 8, 6},
@@ -28,13 +27,18 @@ func LastDigit(a, b int) int {
 		{8, 4, 2, 6},
 		{9, 1}}
 
-	lastDigitA := a % 10
+	lastDigitOfBase := base % 10
+	lastDigitOfBasePeriod := len(digitPeriods[lastDigitOfBase])
 
-	bModLastDigitA := b % len(matrix[lastDigitA])
+	return digitPeriods[lastDigitOfBase][calcDigitIndex(power, lastDigitOfBasePeriod)]
+}
 
-	if bModLastDigitA == 0 {
-		return matrix[lastDigitA][len(matrix[lastDigitA])-1]
+func calcDigitIndex(power, digitPeriod int) int {
+
+	powerModPeriod := power % digitPeriod
+	if powerModPeriod == 0 {
+		return digitPeriod - 1
 	}
 
-	return matrix[lastDigitA][bModLastDigitA-1]
+	return powerModPeriod - 1
 }
